@@ -1,0 +1,217 @@
+# ===================== CREACIÓN DE USUARIOS Y LOGIN ===================== #
+
+@adminAuthToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzQ1ZjE4ZGIxNDY3OGJjYzhmZjI3ZDciLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MzQwMTcwODgsImV4cCI6MTczNDAyNDI4OH0.AWHSrpkVo0fCm2gjTRtwmxEMIda6k-a6msiiteqQ7yk
+@merchandId = 6745f327b14678bcc8ff27ee
+
+@merchantToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzViZTk3YTk1NDczN2QwMjI4MTljNDciLCJyb2xlIjoibWVyY2hhbnQiLCJpYXQiOjE3MzQyNjI4MDMsImV4cCI6MTczNDI3MDAwM30.ZRHZv68f4z5HNBhtnWJaDQuDbdntRPp8atYZwKPkxeE
+
+@userToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzQ4OTIyNzJkNWY2YjI0MjViOTRkMjEiLCJyb2xlIjoidXNlciIsImlhdCI6MTczNDI2MzAwMiwiZXhwIjoxNzM0MjcwMjAyfQ.qfJuYsamjSFcGNYA0vSD8Q_71u8IRkQoetpnaoNQXLM
+
+### Registro de usuario básico
+POST http://localhost:3002/api/user/register
+Content-Type: application/json
+
+{
+    "nombre": "Ricardo",
+    "email": "ricardo@gmail.com",
+    "password": "qwertyui",
+    "edad": 19,
+    "ciudad": "Barcelona",
+    "intereses": ["cine", "música"],
+    "permiteRecibirOfertas": true
+}
+
+### Login de usuario básico
+POST http://localhost:3002/api/user/login
+Content-Type: application/json
+
+{
+    "email": "ricardo@gmail.com",
+    "password": "qwertyui"
+}
+
+### Registro de usuario admin (acuerdate de cambiar el rol en la BBDD)
+POST http://localhost:3000/api/user/register
+Content-Type: application/json
+
+{
+    "nombre": "Administrador",
+    "email": "admin@example.com",
+    "password": "Admin1234",
+    "edad": 30,
+    "ciudad": "Madrid",
+    "intereses": ["lectura", "deporte"]
+}
+
+### Inicia sesión como administrador
+POST http://localhost:3000/api/user/login
+Content-Type: application/json
+
+{
+    "email": "admin@example.com",
+    "password": "Admin1234"
+}
+
+### Creación de usuario merchant (solo el admin)
+POST http://localhost:3000/api/user/register-merchant
+Authorization: {{adminAuthToken}}
+Content-Type: application/json
+
+{
+    "nombre": "Merchant",
+    "email": "merchante@example.com",
+    "password": "Password123",
+    "edad": 35,
+    "ciudad": "Madrid"
+}
+
+### Login del merchant
+POST http://localhost:3002/api/user/login
+Content-Type: application/json
+
+{
+    "email": "mario@gmail.com",
+    "password": "Mario2024"
+}
+
+# ===================== OPERACIONES CON USUARIOS ===================== #
+
+### Modificar datos del usuario básico (requiere token)
+PUT http://localhost:3000/api/user
+Authorization: {{userToken}}
+Content-Type: application/json
+
+{
+    "nombre": "Usuario Básico Modificado",
+    "ciudad": "Barcelona"
+}
+
+### Eliminar usuario (requiere token)
+DELETE http://localhost:3000/api/user
+Authorization: {{userToken}}
+Content-Type: application/json
+
+### Obtener correos de usuarios interesados (acepta parámetro topic para filtrar)
+GET http://localhost:3002/api/store/interested-users
+Authorization: {{merchantToken}}
+Content-Type: application/json
+
+# ===================== OPERACIONES CON COMERCIO ===================== #
+
+
+### Añadir comercio (solo accesible por admin)
+POST http://localhost:3000/api/store
+Authorization: {{adminAuthToken}}
+Content-Type: application/json
+
+{
+    "storeName": "Tienda de Animales",
+    "CIF": "C28342",
+    "address": "Calle Umpalumpa 2, Barcelona",
+    "email": "contacto@tiendanimales.com",
+    "contactNumber": "+34 632 252 234",
+    "merchantId": "6745f327b14678bcc8ff27ee"
+}
+
+### Obtener todos los comercios
+GET http://localhost:3000/api/store?order=true
+Authorization: {{adminAuthToken}}
+Content-Type: application/json
+
+### Obtener un comercio específico por su CIF
+GET http://localhost:3000/api/store/getByCIF/A2342
+Authorization: {{adminAuthToken}}
+Content-Type: application/json
+
+### Modificar comercio por CIF (solo accesible por admin) // TODO Revisar por qué no cambia
+PUT http://localhost:3002/api/store/A2342
+Authorization: {{adminAuthToken}}
+Content-Type: application/json
+
+{
+    "storeName": "Fintech Madrid",
+    "address": "Calle Serrano 5, Madrid",
+    "email": "fintech@gmail.com",
+    "contactNumber": "+34 601 123 789",
+    "merchantId": "6744b0aa4ce6767d9de227f7"
+}
+
+### Eliminar comercio por CIF [Borrado Lógico]
+DELETE http://localhost:3000/api/store/A2342?deleteType=logical
+Authorization: {{adminAuthToken}}
+Content-Type: application/json
+
+# ===================== GESTIÓN DE PÁGINA WEB DE COMERCIO ===================== #
+
+### Crear una página web de comercio (solo accesible por el merchant)
+POST http://localhost:3002/api/webStore
+Authorization: {{merchantToken}}
+Content-Type: application/json
+
+{
+    "city": "Madrid",
+    "activity": "Perreo",
+    "title": "Web de perreo",
+    "resume": "Los mejores perreos.",
+    "textsArray": ["Perrea con nosotros", "Perrear es vida"],
+    "imagesArray": ["http://example.com/mascotin1.jpg", "http://example.com/animalia.jpg"],
+    "storeId": "6745f372b14678bcc8ff27f4"
+}
+
+### Obtener todas las páginas web de comercio
+GET http://localhost:3002/api/webStore
+
+### Obtener todas las páginas web de comercio de una ciudad
+GET http://localhost:3000/api/webStore?city=Madrid
+
+### 
+GET http://localhost:3000/api/webStore?city=Madrid&activity=Mascotas
+
+### Obtener página web de comercio por su id
+GET http://localhost:3000/api/webStore/67472ed2cea603701aa1e82b
+
+### Añadir review (usuarios registrados)
+PATCH http://localhost:3002/api/webStore/67472ed2cea603701aa1e82b/review
+Authorization: {{userToken}}
+Content-Type: application/json
+
+{
+    "scoring": 4.8,
+    "review": "Excelente servicio y productos de calidad."
+}
+
+### Modificar una página web por su id (solo accesible por el comercio propietario)
+PUT http://localhost:3000/api/webStore/675bf093954737d022819ccc
+Authorization: {{merchantToken}}
+Content-Type: application/json
+
+{
+  "city": "Barcelona",
+  "title": "La mejor web de programación"
+}
+
+### Subir imagen a la página web (solo accesible por el comercio propietario)
+PATCH http://localhost:3000/api/webStore/67472ed2cea603701aa1e82b/uploadImage
+Authorization: {{merchantToken}}
+Content-Type: multipart/form-data; boundary=Boundry
+
+--Boundry
+Content-Disposition: form-data; name="image"; filename="doraemon.jpg"
+Content-Type: image/jpg
+
+< ./doraemon.jpg
+--Boundry--
+
+### Añadir texto a una web por su id (solo accesible por el comercio propietario)
+POST http://localhost:3000/api/webStore/67472ed2cea603701aa1e82b/addText
+Authorization: {{merchantToken}}
+Content-Type: application/json
+
+{
+    "text": "Este es un nuevo texto para mi página web."
+}
+
+### Eliminar una página web de comercio por Id [Borrado Físico]
+DELETE http://localhost:3002/api/webStore/675bf093954737d022819ccc
+Authorization: {{merchantToken}}
+Content-Type: application/json

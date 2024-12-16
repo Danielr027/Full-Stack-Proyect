@@ -1,0 +1,39 @@
+body {
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+
+}
+
+.register-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 100px
+}
+
+.register-box {
+    background: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    text-align: center;
+}
+
+.register-box h1 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.register-box a {
+    display: block;
+    margin-top: 15px;
+    color: #4A90E2;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.register-box a:hover {
+    text-decoration: underline;
+}
