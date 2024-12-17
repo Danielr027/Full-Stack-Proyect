@@ -89,8 +89,143 @@ export default function CreateStorePage() {
     return (
         <div>
             <NavBar />
-            {/* Código del formulario, similar a lo que tenías, adaptando Link a next/link y useNavigate a useRouter */}
-            {/* ... */}
+            <div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-2xl w-full bg-white p-8 rounded-lg shadow-md">
+                    <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">Crear Nueva Tienda</h2>
+
+                    {/* Mensajes de Error */}
+                    {error && <div className="mb-4 text-red-500 text-center">{error}</div>}
+
+                    <form onSubmit={handleSubmit}>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            {/* Store Name */}
+                            <div>
+                                <label htmlFor="storeName" className="block text-sm font-medium text-gray-700 mb-1">
+                                    Nombre de la Tienda
+                                </label>
+                                <input
+                                    type="text"
+                                    id="storeName"
+                                    name="storeName"
+                                    value={storeData.storeName}
+                                    onChange={(e) => handleChange(e, 'storeName')}
+                                    required
+                                    className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                    placeholder="Ingrese el nombre de la tienda"
+                                />
+                            </div>
+
+                            {/* CIF */}
+                            <div>
+                                <label htmlFor="CIF" className="block text-sm font-medium text-gray-700 mb-1">
+                                    CIF
+                                </label>
+                                <input
+                                    type="text"
+                                    id="CIF"
+                                    name="CIF"
+                                    value={storeData.CIF}
+                                    onChange={(e) => handleChange(e, 'CIF')}
+                                    required
+                                    className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                    placeholder="Ingrese el CIF"
+                                />
+                            </div>
+
+                            {/* Address */}
+                            <div className="sm:col-span-2">
+                                <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
+                                    Dirección
+                                </label>
+                                <input
+                                    type="text"
+                                    id="address"
+                                    name="address"
+                                    value={storeData.address}
+                                    onChange={(e) => handleChange(e, 'address')}
+                                    required
+                                    className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                    placeholder="Ingrese la dirección de la tienda"
+                                />
+                            </div>
+
+                            {/* Email */}
+                            <div>
+                                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                                    Correo Electrónico
+                                </label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    value={storeData.email}
+                                    onChange={(e) => handleChange(e, 'email')}
+                                    required
+                                    className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                    placeholder="Ingrese el correo electrónico"
+                                />
+                            </div>
+
+                            {/* Contact Number */}
+                            <div>
+                                <label htmlFor="contactNumber" className="block text-sm font-medium text-gray-700 mb-1">
+                                    Número de Contacto
+                                </label>
+                                <input
+                                    type="tel"
+                                    id="contactNumber"
+                                    name="contactNumber"
+                                    value={storeData.contactNumber}
+                                    onChange={(e) => handleChange(e, 'contactNumber')}
+                                    required
+                                    className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                    placeholder="Ingrese el número de contacto"
+                                />
+                            </div>
+
+                            {/* Merchant ID */}
+                            <div>
+                                <label htmlFor="merchantId" className="block text-sm font-medium text-gray-700 mb-1">
+                                    ID del Merchant
+                                </label>
+                                <input
+                                    type="text"
+                                    id="merchantId"
+                                    name="merchantId"
+                                    value={storeData.merchantId}
+                                    onChange={(e) => handleChange(e, 'merchantId')}
+                                    required
+                                    className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                    placeholder="Ingrese el ID del Merchant"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Botón de Envío */}
+                        <div className="mt-8 flex justify-end">
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className={`inline-flex justify-center items-center py-2 px-6 border border-transparent shadow-sm text-sm font-medium rounded-md text-white ${
+                                    loading ? 'bg-indigo-300 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700'
+                                } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300`}
+                            >
+                                {loading ? (
+                                    <>
+                                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                                        </svg>
+                                        Creando...
+                                    </>
+                                ) : (
+                                    'Agregar Tienda'
+                                )}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
             <Dialog.Root open={success} onOpenChange={(open) => { if (!open) setSuccess(false); }}>
                 <Dialog.Portal>
                     <Dialog.Overlay className="fixed inset-0 bg-black opacity-40" />

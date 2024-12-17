@@ -38,7 +38,7 @@ export default function StoresPage() {
                     <Link href="/createStore" className="bg-indigo-600 text-white px-6 py-2 rounded-md hover:bg-indigo-700 transition duration-300">
                         Crear Comercio
                     </Link>
-                    <Link href="/createMerchant" className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition duration-300">
+                    <Link href="/createMerchant" style={{color: "green"}} className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition duration-300">
                         Crear Merchant
                     </Link>
                 </div>
