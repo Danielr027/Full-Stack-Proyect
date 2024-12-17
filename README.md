@@ -1,1 +1,1 @@
-Para probar el proyecto, ejecutar la API con el comando "PORT=3002 npm start" y luego el front con "npm start".
+Para probar el proyecto, ejecutar la API con el comando "PORT=3002 npm start" y luego el front con "npm run dev".
